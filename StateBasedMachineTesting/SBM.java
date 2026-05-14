@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.SBMTestHardware;
+import org.firstinspires.ftc.teamcode.SBMTestDriveCode;
 
 public class SBM {
 
@@ -23,14 +24,21 @@ public class SBM {
 	//ResetState is the value to set the hardware device to after the time is up - usually a default servo position or 0 for motors
 	private ArrayList<Float> resetState = new ArrayList<Float>();
 	
+	
+	
 	private SBMTestHardware theRobot = null;
+	private SBMTestDriveCode myOpMode = null;
 	
 	public SBM(SBMTestHardware hardware) {
 		theRobot = hardware;
 	}
+	
+	public SBM(SBMTestDriveCode opmode) {
+		myOpMode = opmode;
+	}
 
 	//Used by other files to add objects and their timers to the SBM checklist
-	public void AddSBM(HardwareDevice object, double length, double runtime, float state) {
+	public void addSBM(HardwareDevice object, double length, double runtime, float state) {
 		objects.add(object);
 		finishTime.add(runtime+length);
 		resetState.add(state);
@@ -40,7 +48,7 @@ public class SBM {
 		//go through all objects in sbm
 		for (int i = 0; i > objects.size(); i++) {
 			// if the current time is past the object's finish time 
-			if (finishTime.get(i) > runtime) {
+			if (finishTime.get(i) < runtime) {
 				// possibly change this to switch statement
 				if (objects.get(i) instanceof DcMotor) {
 					DcMotor temp = (DcMotor) objects.get(i);
@@ -54,5 +62,18 @@ public class SBM {
 				
 			} 
 		}
+	}
+	
+	public ArrayList SBMTelemetry(String list) {
+		ArrayList<String> returnVal = new ArrayList<String>();
+		returnVal.add("Unkown");
+		if (list == "Objects") {
+			return objects;
+		} else if (list == "FinishTime") {
+			return finishTime;
+		} else if (list == "ResetState") {
+			return resetState;
+		} 
+		return returnVal;
 	}
 }
