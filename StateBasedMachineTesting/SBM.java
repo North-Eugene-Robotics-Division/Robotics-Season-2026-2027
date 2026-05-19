@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import java.util.List;
 import java.lang.reflect.Array;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -16,15 +17,18 @@ import org.firstinspires.ftc.teamcode.SBMTestDriveCode;
 public class SBM {
 
 	// HardwareDevice to allow for servos and motors, both implement it.
-	private ArrayList<HardwareDevice> objects = new ArrayList<HardwareDevice>();
+	public ArrayList<HardwareDevice> objects = new ArrayList<HardwareDevice>();
 	
 	//Time list is the time in miliseconds when the corresponding object needs to be turned off
-	private ArrayList<Double> finishTime = new ArrayList<Double>();
+	public ArrayList<Double> finishTime = new ArrayList<Double>();
 	
 	//ResetState is the value to set the hardware device to after the time is up - usually a default servo position or 0 for motors
-	private ArrayList<Float> resetState = new ArrayList<Float>();
+	public ArrayList<Float> resetState = new ArrayList<Float>();
 	
+	public ArrayList<String> name = new ArrayList<String>();
 	
+	public ArrayList<String> testNames = new ArrayList<String>(List.of("John", "Jeff", "Jacob"));
+	public int trackedAddSBM;
 	
 	private SBMTestHardware theRobot = null;
 	private SBMTestDriveCode myOpMode = null;
@@ -38,10 +42,12 @@ public class SBM {
 	}
 
 	//Used by other files to add objects and their timers to the SBM checklist
-	public void addSBM(HardwareDevice object, double length, double runtime, float state) {
+	public void addSBM(HardwareDevice object, double endTime, float state, String objName) {
 		objects.add(object);
-		finishTime.add(runtime+length);
+		finishTime.add(endTime);
 		resetState.add(state);
+		name.add(objName);
+		trackedAddSBM++;
 	}
 	
 	public void checkSBM(double runtime) {
@@ -68,12 +74,14 @@ public class SBM {
 		ArrayList<String> returnVal = new ArrayList<String>();
 		returnVal.add("Unkown");
 		if (list == "Objects") {
-			return objects;
+			return objects.size();
 		} else if (list == "FinishTime") {
 			return finishTime;
 		} else if (list == "ResetState") {
 			return resetState;
-		} 
+		} else if (list == "Name") {
+			return name;
+		}
 		return returnVal;
 	}
 }
