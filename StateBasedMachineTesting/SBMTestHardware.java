@@ -52,16 +52,20 @@ public class SBMTestHardware {
 		thisMachine = new SBM(this);
 	}
 	
-	public void runMotor1(double runtime) {
+	// public void runMotor1(double runtime) {
+	// 	thisMachine.addSBM(motor1, runtime, runtime, 0, "Motor1");
+	// 	motor1.setPower(.5);
+	// }
+	
+	public void runMotor(DcMotor motor, double endTime) {
+		
+		thisMachine.addSBM(motor1, endTime, 0, "Motor1");
 		motor1.setPower(.5);
-		
-		thisMachine.addSBM(motor1, 3000, runtime, 0);
 	}
-	public void runMotor2(double runtime) {
-		motor2.setPower(.3);
-		
-		thisMachine.addSBM(motor1, 4000, runtime, 0);
-	}
+	// public void runMotor2(double runtime) {
+	// 	thisMachine.addSBM(motor1, 4000, runtime, 0, "Motor2");
+	// 	motor2.setPower(.3);
+	// }
 	public void runCheckSBM(double runtime){
 		thisMachine.checkSBM(runtime);
 	}
