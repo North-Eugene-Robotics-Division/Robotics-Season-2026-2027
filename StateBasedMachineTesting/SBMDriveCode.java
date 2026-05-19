@@ -18,17 +18,20 @@ public class SBMTestDriveCode extends LinearOpMode {
 	private int trackCheckTimeRuns = 0;
 	private int cycleTime = 1000;
 	
+
+	
 	private double checkTime;
 
 	@Override
 	public void runOpMode() {
 		
+		
 		SBMTestHardware robot = new SBMTestHardware(this);
 		SBM thisMachine = new SBM(this);
 		robot.init();
 		
-		// telemetry.addData("Status", "Initialized");
-		// telemetry.update();
+		telemetry.addData("Status", "Initialized");
+		telemetry.update();
 		// Wait for the game to start (driver presses PLAY)
 		waitForStart();
 		runtime.reset();
@@ -36,13 +39,15 @@ public class SBMTestDriveCode extends LinearOpMode {
 		
 		// run until the end of the match (driver presses STOP)
 		while (opModeIsActive()) {
-			// telemetry.addData("Status", "Running");
+			telemetry.addData("Status", "Running");
 			telemetry.addData("Runtime: ", runtime.milliseconds());
 			telemetry.addData("SBM Checks: ", trackCheckTimeRuns);
-			// telemetry.addData("Tracked Objects; ",thisMachine.SBMTelemetry("Objects"));
-			// telemetry.addData("Tracked End Times: ",thisMachine.SBMTelemetry("FinishTime"));
-			// telemetry.addData("Tracked Reset States: ",thisMachine.SBMTelemetry("ResetState"));
-			// telemetry.update();
+			telemetry.addData("Tracked Objects: ", thisMachine.SBMTelemetry("Name"));
+			telemetry.addData("Tracked Objects; ",thisMachine.SBMTelemetry("Objects"));
+			telemetry.addData("Tracked End Times: ",thisMachine.SBMTelemetry("FinishTime"));
+			telemetry.addData("Tracked Reset States: ",thisMachine.SBMTelemetry("ResetState"));
+			telemetry.addData("Tracked Objects: ", thisMachine.testNames);
+			telemetry.addData("Tracked Add Times: ", thisMachine.trackedAddSBM);
 
 			// ArrayList<HardwareDevice> objs = thisMachine.SBMTelemetry("Objects");
 			// ArrayList<Double> fTimes = thisMachine.SBMTelemetry("FinishTime");
@@ -54,7 +59,7 @@ public class SBMTestDriveCode extends LinearOpMode {
 			telemetry.update();
 			
 			if(gamepad1.xWasReleased()){
-				robot.runMotor1(runtime.milliseconds());
+				robot.runMotor("", 1000, 0);
 			}
 			if(gamepad1.yWasReleased()){
 				robot.runMotor2(runtime.milliseconds());
